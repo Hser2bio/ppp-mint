@@ -11,7 +11,7 @@
   "dependencies": {
     "@metaplex-foundation/mpl-candy-machine": "6.0.0-alpha.6",
     "@metaplex-foundation/mpl-token-metadata": "^3.0.0-alpha.18",
-    "@metaplex-foundation/umi": "^0.7.5",
+    "@metaplex-foundation/umi": "^0.6.0",
     "@metaplex-foundation/umi-bundle-defaults": "^0.6.0",
     "@metaplex-foundation/umi-signer-wallet-adapters": "^0.7.5",
     "@next/font": "13.1.6",

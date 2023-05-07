@@ -1,16 +1,13 @@
 import {
   base58PublicKey,
-  createGenericFileFromBrowserFile,
   generateSigner,
-  Umi,
-  percentAmount,
   PublicKey,
   publicKey,
   some,
   transactionBuilder
 } from "@metaplex-foundation/umi";
-import { createNft, fetchDigitalAsset, TokenStandard } from "@metaplex-foundation/mpl-token-metadata";
-import { Dosis } from "@next/font/google";
+import { fetchDigitalAsset, TokenStandard } from "@metaplex-foundation/mpl-token-metadata";
+import { Dosis } from "next/font/google";
 import { useWallet } from "@solana/wallet-adapter-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -41,37 +38,6 @@ const WalletMultiButtonDynamic = dynamic(
   { ssr: false }
 );
 
-// async function uploadAndCreateNft(umi: Umi, name: string, file: File) {
-//   // Ensure input is valid.
-//   if (!name) {
-//     throw new Error("Please enter a name for your NFT.");
-//   }
-//   if (!file || file.size === 0) {
-//     throw new Error("Please select an image for your NFT.");
-//   }
-
-//   // Upload image and JSON data.
-//   const imageFile = await createGenericFileFromBrowserFile(file);
-//   const [imageUri] = await umi.uploader.upload([imageFile]);
-//   const uri = await umi.uploader.uploadJson({
-//     name,
-//     description: "A test NFT created via Umi.",
-//     image: imageUri,
-//   });
-
-//   // Create and mint NFT.
-//   const mint = generateSigner(umi);
-//   const sellerFeeBasisPoints = percentAmount(5.5, 2);
-//   await createNft(umi, {
-//     mint,
-//     name,
-//     uri,
-//     sellerFeeBasisPoints,
-//   }).sendAndConfirm(umi);
-
-//   // Return the mint address.
-//   return mint.publicKey;
-// }
 
 export default function Home() {
   const wallet = useWallet();
