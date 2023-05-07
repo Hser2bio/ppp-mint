@@ -138,7 +138,7 @@ export default function Home() {
       return (
         <div className={styles.loading}>
            <img className={styles.loadingIcon} src="/loading.svg" alt="Loading indicator"/>
-          <p>Approve and mint<span className="loadingDots">...</span></p>
+          <p>Get ready to meet your new Pal<span className="loadingDots">...</span></p>
         </div>
       );
     }
@@ -149,9 +149,8 @@ export default function Home() {
           className={styles.success}
           target="_blank"
           href={
-            "https://www.solaneyes.com/address/" +
-            base58PublicKey(mintCreated) +
-            "?cluster=devnet"
+            "https://my.porcupineplaygroundpals.com/connect?p=" +
+            base58PublicKey(mintCreated)
           }
           rel="noreferrer"
         >
@@ -184,7 +183,7 @@ export default function Home() {
           </svg>
           <div>
             <p>
-              <strong>NFT Created</strong> at the following address
+              <strong>Meet your new Pal</strong> at the following address
             </p>
             <p>
               <code>{base58PublicKey(mintCreated)}</code>
