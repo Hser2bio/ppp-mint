@@ -1,107 +1,759 @@
 :root {
-  --max-width: 1100px;
-  --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
-
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-
-  --primary-glow: conic-gradient(
-    from 180deg at 50% 50%,
-    #16abff33 0deg,
-    #0885ff33 55deg,
-    #54d6ff33 120deg,
-    #0071ff33 160deg,
-    transparent 360deg
-  );
-  --secondary-glow: radial-gradient(
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0)
-  );
-
-  --tile-start-rgb: 239, 245, 249;
-  --tile-end-rgb: 228, 232, 233;
-  --tile-border: conic-gradient(
-    #00000080,
-    #00000040,
-    #00000030,
-    #00000020,
-    #00000010,
-    #00000010,
-    #00000080
-  );
-
-  --callout-rgb: 238, 240, 241;
-  --callout-border-rgb: 172, 175, 176;
-  --card-rgb: 180, 185, 188;
-  --card-border-rgb: 131, 134, 135;
+  --pal-frame-color: rgba(236, 239, 243, 1);
+  --pal-first-color: rgba(236, 239, 243, 0.7);
+  --pal-last-color: rgba(236, 239, 243, 0.8);
+  --pal-frame-thickness: 6px;
+  --pal-dimen: 200px;
+  --pal-dimen-sm: 170px;
+  --pal-dimen-plus-frame: 206px;
+  --pal-dimen-plus-frame-sm: 176px;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
-
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
-
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
-  }
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
+body {
   margin: 0;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+h2 {
+  text-align: center;
+  margin-top: 1em;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+h1.site-title {
+  font-weight: 800;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* Nav */
+ul.menu {
+  list-style: none;
+  display: flex;
+  flex: 1 0 auto;
+  font-size: 1.2em;
+  font-family: "Open Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  background-color: rgba(55, 76, 159, 0.5);
+  margin-left: 0px;
+  justify-content: flex-end;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+  @media (max-width: 500px) {
+    font-size: inherit;
   }
+}
+
+ul.menu li {
+  margin: 0 12px;
+  border-right: 1px solid var(--main-contrast-color);
+  padding-left: 0px;
+  padding-right: 24px;
+}
+
+ul.menu a {
+  color: var(--main-text-color);
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  outline: none;
+  text-decoration: none;
+  text-size-adjust: 100%;
+  touch-action: manipulation;
+  transition: color 0.3s;
+  padding-bottom: 4px;
+}
+
+ul.menu a:hover,
+ul.menu a:active,
+ul.menu a.selected {
+  color: var(--main-contrast-color);
+  border-bottom: 4px solid var(--main-contrast-color);
+}
+
+ul.menu li:last-child {
+  border-right: none;
+}
+
+/* MINT */
+.mintInstruct {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.preview {
+  width: auto;
+  height: 350px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.previewContainer {
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.buttons {
+  flex-flow: column;
+}
+
+/* override */
+button.wallet-adapter-button {
+  width: 100%;
+  padding: 0 52px; /* override 0 24px, want it to be centered and this does it*/
+}
+button.wallet-adapter-button:not([disabled]):hover {
+  background-color: white;
+}
+/* My */
+h3.centeredTitle {
+  text-align: center;
+}
+
+.reorderInstr {
+  text-align: center;
+  margin-top: 3rem;
+  background: rgba(55, 76, 159, 0.3);
+}
+
+.reorderInstr > div {
+  padding-top: 1em;
+  font-weight: 700;
+}
+.reorderDnd {
+  clip-path: polygon(0 17%, 100% 17%, 100% 75%, 0 75%);
+  margin-top: -50px;
+  margin-bottom: -70px;
+}
+
+.totalHeader {
+  font-weight: 800;
+}
+.palGroupContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.notPals {
+  border-top: 1px solid white;
+  margin-top: 5rem;
+}
+
+.dropArea {
+  border: 2px dashed var(--light-blue-color);
+  border-radius: 5px;
+}
+
+.outsideDropArea {
+  border: 2px dashed var(--background-lighter-color);
+  border-radius: 5px;
+}
+
+.dragging {
+  border: 1px solid var(--light-blue-color);
+  background-color: var(--background-lighter-color);
+}
+
+.hPalsContainer {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  padding-top: 15px; /* so no clip when anim shake, padding for border around droppable and border around set */
+  margin-top: -15px; /* to offset padding top */
+}
+
+.hPalContainer {
+  display: flex;
+  flex-direction: column;
+  width: var(--pal-dimen);
+}
+
+.anim .hPalContainer:nth-child(even) .palImg {
+  animation: shake-v-even 1.5s ease-in-out 0s 1 normal none;
+}
+
+@keyframes shake-v-even {
+  0%,100% {
+    transform: translateY(0);
+  }
+  20%,60% {
+    transform: translateY(-8px);
+  }
+  40% {
+    transform: translateY(8px);
+  }
+  80% {
+    transform: translateY(6.4px);
+  }
+}
+
+.anim .hPalContainer:nth-child(odd) .palImg{
+  animation: shake-v-odd 1.5s ease-in-out 0s 1 normal none;
+}
+
+@keyframes shake-v-odd {
+  0%,100% {
+    transform: translateY(0);
+  }
+  20%,60% {
+    transform: translateY(8px);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  80% {
+    transform: translateY(-6.4px);
+  }
+}
+
+.vPalGroups {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 4rem;
+}
+
+.vPalsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  padding-top: 15px; /* padding for border around droppable and border around set */
+  margin-top: -15px; /* to offset padding top */
+}
+
+.vPalContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.anim .vPalContainer:nth-child(even) .palImg {
+  animation: shake-h-even 1.5s ease-in-out 0s 1 normal none;
+}
+
+@keyframes shake-h-even {
+  0%,100% {
+    transform: translateX(0);
+  }
+  20%,60% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  80% {
+    transform: translateX(6.4px);
+  }
+}
+
+.anim .vPalContainer:nth-child(odd) .palImg{
+  animation: shake-h-odd 1.5s ease-in-out 0s 1 normal none;
+}
+
+@keyframes shake-h-odd {
+  0%,100% {
+    transform: translateX(0);
+  }
+  20%,60% {
+    transform: translateX(8px);
+  }
+  40% {
+    transform: translateX(-8px);
+  }
+  80% {
+    transform: translateX(-6.4px);
+  }
+}
+/* Pal Set H */
+.hPalContainer .dragHandle {
+  margin-bottom: var(--pal-frame-thickness);
+}
+
+.hPalContainer .palImg {
+  border-top: var(--pal-frame-thickness) solid transparent;
+  border-bottom: var(--pal-frame-thickness) solid transparent;
+}
+
+.hPalContainer.set .palImg {
+  border-color: var(--pal-frame-color);
+  transition-property: border;
+  transition-delay: 0s;
+  transition-duration: 1.5s;
+}
+
+.hPalContainer.set.first .palImg {
+  border-left: var(--pal-frame-thickness) solid var(--pal-first-color);
+}
+
+.hPalContainer.set.last .palImg {
+  border-right: var(--pal-frame-thickness) solid var(--pal-last-color);
+}
+
+.hPalContainer.set.first,
+.hPalContainer.set.last {
+  width: var(--pal-dimen-plus-frame);
+  transition-property: width;
+  transition-delay: 0s;
+  transition-duration: 1.5s;
+}
+
+.anim .hPalContainer.set .palImg {
+  transition-delay: 1.5s; /* same as animation duration */
+}
+
+.anim .hPalContainer.set.first,
+.anim .hPalContainer.set.last {
+  transition-delay: 1.5s; /* same as animation duration */
+}
+
+/* Pal Set V */
+.vPalContainer .palImg {
+  border-left: var(--pal-frame-thickness) solid transparent;
+  border-right: var(--pal-frame-thickness) solid transparent;
+}
+
+.vPalContainer.set .palImg {
+  border-color: var(--pal-frame-color);
+  transition-property: border;
+  transition-delay: 0s;
+  transition-duration: 1.5s;
+}
+
+.vPalContainer.set.first .palImg {
+  border-top: var(--pal-frame-thickness) solid var(--pal-first-color);
+}
+
+.vPalContainer.set.last .palImg {
+  border-bottom: var(--pal-frame-thickness) solid var(--pal-last-color);
+}
+
+.vPalContainer.set.first,
+.vPalContainer.set.last {
+  height: var(--pal-dimen-plus-frame);
+  transition-property: height;
+  transition-delay: 0s;
+  transition-duration: 1.5s;  
+}
+
+.anim .vPalContainer.set .palImg {
+  transition-delay: 1.5s; /* same as animation duration */
+}
+
+.anim .vPalContainer.set.first,
+.anim .vPalContainer.set.last {
+  transition-delay: 1.5s; /* same as animation duration */
+}
+
+.notPalsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.notPalContainer {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5rem;
+  margin-bottom: 5rem;
+}
+
+.palImg {
+  width: var(--pal-dimen);
+  height: var(--pal-dimen);
+  cursor: pointer;
+}
+
+.palDetails {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  max-width: var(--pal-dimen);
+}
+
+.dragHandle {
+  background: url(/drag-handle.svg) no-repeat center center;
+  height: 10px;
+  display: block;
+  cursor: grab;
+}
+
+.noPals {
+  margin-bottom: 2rem;
+}
+
+.srPalsContainer {
+  display: grid;
+  grid-template-columns: var(--pal-dimen-plus-frame) var(--pal-dimen-plus-frame); /* 2 cols */
+  grid-template-rows: auto var(--pal-dimen-plus-frame) var(--pal-dimen-plus-frame) auto; /* det row, 2 pal rows, det row */
+  justify-content: center;
+}
+
+.srImg1, .srImg3 {
+  grid-column: 1 / span 1;
+}
+
+.srDet1, .srDet3 {
+  grid-column: 1 / span 1;
+}
+
+.srImg2, .srImg4 {
+  grid-column: 2 / span 1;
+}
+
+.srDet2, .srDet4 {
+  grid-column: 2 / span 1;
+}
+
+.srImg1 {
+  border-top: var(--pal-frame-thickness) solid transparent;
+  border-left: var(--pal-frame-thickness) solid transparent;
+}
+.srImg2 {
+  border-top: var(--pal-frame-thickness) solid transparent;
+  border-right: var(--pal-frame-thickness) solid transparent;
+}
+.srImg3 {
+  border-bottom: var(--pal-frame-thickness) solid transparent;
+  border-left: var(--pal-frame-thickness) solid transparent;
+}
+.srImg4 {
+  border-bottom: var(--pal-frame-thickness) solid transparent;
+  border-right: var(--pal-frame-thickness) solid transparent;
+}
+
+.anim .srImg1 {
+  animation: rbcc 3s ease-in-out 0s 1 normal none;
+}
+.anim .srImg2 {
+  animation: rlc 3s ease-in-out 0s 1 normal none;
+}
+.anim .srImg3 {
+  animation: rrc  3s ease-in-out 0s 1 normal none;
+}
+.anim .srImg4 {
+  animation: rtcc 3s ease-in-out 0s 1 normal none;
+}
+
+@keyframes rbcc {
+  0% {
+    transform: rotate(0);transform-origin: bottom;
+  }
+  100% {
+    transform: rotate(-360deg);transform-origin: bottom;
+  } 
+}
+
+@keyframes rlc {
+  0% {
+    transform: rotate(0);transform-origin: left;
+  }
+  100% {
+    transform: rotate(360deg);transform-origin: left;
+  } 
+}
+
+@keyframes rrc {
+  0% {
+    transform: rotate(0);transform-origin: right;
+  }
+  100% {
+    transform: rotate(360deg);transform-origin: right;
+  } 
+}
+
+@keyframes rtcc {
+  0% {
+    transform: rotate(0);transform-origin: top;
+  }
+  100% {
+    transform: rotate(-360deg);transform-origin: top;
+  } 
+}
+.noImg {
+  text-align: center;
+  line-height: 180px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  width: 198px;
+  height: 198px;
+}
+
+.anim.set .srImg1 {
+  border-top-color: var(--pal-frame-color);
+  border-left-color: var(--pal-first-color);
+  transition-property: border-color;
+  transition-delay: 3s; /* same as animation duration */
+  transition-duration: 1.5s;  
+}
+.anim.set .srImg2 {
+  border-top-color: var(--pal-frame-color);
+  border-right-color: var(--pal-last-color);
+  transition-property: border-color;
+  transition-delay: 3s; /* same as animation duration */
+  transition-duration: 1.5s;  
+}
+.anim.set .srImg3 {
+  border-bottom-color: var(--pal-frame-color);
+  border-left-color: var(--pal-first-color);
+  transition-property: border-color;
+  transition-delay: 3s; /* same as animation duration */
+  transition-duration: 1.5s;  
+}
+.anim.set .srImg4 {
+  border-bottom-color: var(--pal-frame-color);
+  border-right-color: var(--pal-last-color);
+  transition-property: border-color;
+  transition-delay: 3s; /* same as animation duration */
+  transition-duration: 1.5s;  
+}
+
+
+@media (max-width: 400px) {
+  .hPalContainer,
+  .palDetails {
+    width: var(--pal-dimen-sm);
+  }
+
+  .palDetails {
+    line-height: 1.5em;
+    padding: 0.3em;
+  }
+
+  .palImg {
+    width: var(--pal-dimen-sm);
+    height: var(--pal-dimen-sm);
+  }
+
+  .anim .hPalContainer.set.first,
+  .anim .hPalContainer.set.last {
+    width: var(--pal-dimen-plus-frame-sm);
+  }
+
+  .anim .vPalContainer.set.first,
+  .anim .vPalContainer.set.last {
+    height: var(--pal-dimen-plus-frame-sm);
+  }
+
+  .noImg {
+    width: 168px;
+    height: 168px;
+  }
+
+  .srPalsContainer {
+    grid-template-columns: var(--pal-dimen-plus-frame-sm) var(--pal-dimen-plus-frame-sm); /* 2 cols */
+    grid-template-rows: auto var(--pal-dimen-plus-frame-sm) var(--pal-dimen-plus-frame-sm) auto; /* det row, 2 pal rows, det row */
+  }
+
+  .solaneyes {
+    display: none;
+  }
+}
+
+.searchWalletForm, .searchTokensForm {
+  padding: 2rem;
+  border: 1px solid #9fccdf;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+#SearchWallet, #SearchTokens {
+  margin: 1rem;
+  width: 30rem;
+}
+
+#SearchTokens {
+  height: 8rem;
+}
+
+.tokenInput::placeholder,
+.walletInput::placeholder {
+  opacity: 0.8;
+}
+
+button, .searchBtn, button.xmintBtn {
+  background-color: var(--dark-blue-color);
+  border-radius: 5px;
+  width: auto;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+button:not([disabled]):hover {
+  color: var(--main-background-color);
+}
+
+button.xmintBtn:hover,
+button.xmintBtn:hover span {
+  background: #fff;
+  color: #000;
+}
+
+button.xmintBtn:hover:enabled {
+  opacity: inherit;
+}
+
+button:disabled, .searchBtn:disabled, button.xmintBtn:disabled {
+  opacity: .5;
+  color: inherit;
+  cursor: default;
+}
+
+.errorMsg {
+  color: red;
+}
+
+.loadingBtnContainer {
+  position: relative;
+}
+
+/* Animations */
+.loadingDots {
+  font-weight: bold;
+  line-height: 1px;
+  font-size: 40px;
+  clip-path: inset(0 3ch 0 0);
+  animation: l 1s steps(4) infinite;
+}
+
+@keyframes l {
+  to {
+    clip-path: inset(0 -1ch 0 0)
+  }
+}
+
+.tooltip {
+  position: relative;
+  display: block;
+  background-image: url('/logo192.png');
+  background-size: 36px 36px;
+  background-repeat: no-repeat;
+  background-position-y: 40px;
+  margin-bottom: -5px;
+  height: 36px;
+  width: 36px;
+  transition-property: background; 
+  transition-duration: 0.5s;
+  cursor: default;
+}
+
+.tooltiptext {
+  font-size: 24px;
+  background-color: var(--main-text-color);
+  color: var(--main-background-color);
+  text-align: center;
+  border-radius: 6px;
+  padding: 1px 5px;
+  position: absolute;
+  bottom: 1.7em;
+  left: 0%;
+  width: 328px;
+  transform: scale(0) translate(-308px, 1.7em);
+}
+
+.tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 20px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--main-text-color) transparent transparent transparent;
+}
+
+.tooltip.inView {
+  background-position-y: 0;
+  transition-property: background; 
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+
+.tooltip.inView .tooltiptext {
+  transform: scale(1) translate(0px, 0em);
+  transition-property: transform;
+  transition-delay: 0s; /* 1/2 second shorter than animation duration */
+  transition-duration: 1s;
+}
+
+.tooltip.inView.hide .tooltiptext {
+  transform: scale(0);
+  transition-delay: 0s;
+}
+
+/** Toggle checkbox as rounded slider */
+ /* The switch - the box around the slider */
+ .switch {
+  position: relative;
+  width: 60px;
+  height: 34px;
+  float: right;
+  margin-right: 1em;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--background-lighter-color);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "off";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--main-text-color);
+  -webkit-transition: .4s;
+  transition: .4s;
+  text-align: center;
+  font-size: 14px;
+  color: var(--background-lighter-color);
+}
+
+input:checked + .slider {
+  background-color: var(--dark-blue-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--dark-blue-color);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  content: "ON";
+  color: var(--dark-blue-color);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
+
+.switchText {
+  display: block;
+  font-size: 12px;
+  margin-top: 0.6em;
 }
