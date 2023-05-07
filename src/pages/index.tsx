@@ -243,7 +243,7 @@ export default function Home() {
           <input name="image" type="file" />
         </label> */}
         <button type="submit" className={styles.mintBtn}>
-          Buy with wallet (2.36 SOL)
+          Buy with wallet ({PPPConstants.COST_IN_SOL})
         </button>
       </form>
       <div>

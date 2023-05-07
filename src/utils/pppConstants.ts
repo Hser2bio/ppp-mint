@@ -34,3 +34,5 @@ export const MSG_MINT_MINT_LIMIT = 'You have reached the mint limit.';
 export const MSG_MINT_SOL_MIN = 'You need more SOL in your wallet.';
 export const MSG_MINT_FREEZE_SOL_MIN = 'You need more freeze SOL.';
 export const MSG_MINT_SUCCESS = 'Mint was successful!';
+
+export const COST_IN_SOL = process.env.NEXT_PUBLIC_COST_IN_SOL ? process.env.NEXT_PUBLIC_COST_IN_SOL : "2.36";
