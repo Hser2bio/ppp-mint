@@ -243,7 +243,7 @@ export default function Home() {
           <input name="image" type="file" />
         </label> */}
         <button type="submit" className={styles.mintBtn}>
-          Buy with wallet
+          Buy with wallet (2.36 SOL)
         </button>
       </form>
       <div>
@@ -269,8 +269,8 @@ export default function Home() {
 
       <main className={dosis.className}>
         <div className={styles.container}>
+          <div className={styles.instruct}>Approximately $50</div>
           <Image priority className="preview" src="/preview.gif" width={350} height={350} alt="Porcupine Playground Pals Candy Machine Preview" />
-
           <div className={styles.container}>
             <div className={styles.wallet}>
               <WalletMultiButtonDynamic />

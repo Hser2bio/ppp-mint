@@ -155,3 +155,8 @@ animation: swirl-center-ei 3s ease-in 0s 1 normal none;
   font-weight: normal;
 }
 
+.instruct {
+  text-align: center;
+  font-size:larger;
+  margin-bottom: 1em;
+}
