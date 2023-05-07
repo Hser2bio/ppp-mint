@@ -83,8 +83,8 @@ ul.menu li:last-child {
 }
 
 .preview {
-  width: auto;
-  height: 350px;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 10px;
   margin-bottom: 30px;
 }
@@ -101,6 +101,9 @@ ul.menu li:last-child {
 }
 
 /* override */
+.wallet-adapter-dropdown {
+  width: 100%;
+}
 button.wallet-adapter-button {
   width: 100%;
   padding: 0 52px; /* override 0 24px, want it to be centered and this does it*/

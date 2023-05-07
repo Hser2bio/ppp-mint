@@ -27,6 +27,8 @@ import PPPNavbar from "@/components/PPPNavbar";
 import PPPPageTitle from "@/components/PPPPageTitle";
 import Image from 'next/image';
 
+// import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
+
 const dosis = Dosis({ 
   weight: '400',
   subsets: ['latin'] 
@@ -182,51 +184,51 @@ export default function Home() {
 
     if (mintCreated) {
       return (
-        <a
-          className={styles.success}
-          target="_blank"
-          href={
-            "https://my.porcupineplaygroundpals.com/connect?p=" +
-            base58PublicKey(mintCreated)
-          }
-          rel="noreferrer"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="192"
-            height="192"
-            fill="currentColor"
-            viewBox="0 0 256 256"
+          <a
+            className={styles.success}
+            target="_blank"
+            href={
+              "https://my.porcupineplaygroundpals.com/connect?p=" +
+              base58PublicKey(mintCreated)
+            }
+            rel="noreferrer"
           >
-            <rect width="256" height="256" fill="none"></rect>
-            <polyline
-              points="172 104 113.3 160 84 132"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></polyline>
-            <circle
-              cx="128"
-              cy="128"
-              r="96"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></circle>
-          </svg>
-          <div>
-            <p>
-              <strong>Meet your new Pal</strong> at the following address
-            </p>
-            <p className="mintAddress">
-              <code>{base58PublicKey(mintCreated)}</code>
-            </p>
-          </div>
-        </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="192"
+              height="192"
+              fill="currentColor"
+              viewBox="0 0 256 256"
+            >
+              <rect width="256" height="256" fill="none"></rect>
+              <polyline
+                points="172 104 113.3 160 84 132"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="24"
+              ></polyline>
+              <circle
+                cx="128"
+                cy="128"
+                r="96"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="24"
+              ></circle>
+            </svg>
+            <div>
+              <p>
+                <strong>Meet your new Pal</strong> at the following address
+              </p>
+              <p className="mintAddress">
+                <code>{base58PublicKey(mintCreated)}</code>
+              </p>
+            </div>
+          </a>
       );
     }
     return (
@@ -269,12 +271,26 @@ export default function Home() {
         <div className={styles.container}>
           <Image priority className="preview" src="/preview.gif" width={350} height={350} alt="Porcupine Playground Pals Candy Machine Preview" />
 
-          <div className={styles.wallet}>
-            <WalletMultiButtonDynamic />
-          </div>
+          <div className={styles.container}>
+            <div className={styles.wallet}>
+              <WalletMultiButtonDynamic />
+            </div>
 
-          <div className={styles.center}>
-            <PageContent />
+            <div className={styles.container}>
+              <PageContent />
+            </div>
+            <div className={styles.container}>
+              {/* <CrossmintPayButton
+              className="xmintBtn"
+              clientId={crossmintClientId}
+              environment={crossmintEnv}
+              mintConfig={{
+                  type: "candy-machine",
+                  quantity: 1,
+                  mintingGroup: "default"                  
+              }}
+            /> */}
+            </div>
           </div>
         </div>
       </main>

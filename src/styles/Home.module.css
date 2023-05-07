@@ -1,3 +1,9 @@
+.success {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 .container {
   margin-left: auto;
   margin-right: auto;
@@ -148,3 +154,4 @@ animation: swirl-center-ei 3s ease-in 0s 1 normal none;
 .countVal {
   font-weight: normal;
 }
+
