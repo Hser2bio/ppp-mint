@@ -18,6 +18,7 @@ import { FormEvent, useState } from "react";
 import { useUmi } from "../context/useUmi";
 import { fetchCandyMachine, mintV2, safeFetchCandyGuard, DefaultGuardSetMintArgs } from "@metaplex-foundation/mpl-candy-machine"
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials';
+import * as PPPConstants from "@/utils/pppConstants";
 
 import styles from "@/styles/Home.module.css";
 const dosis = Dosis({ 
@@ -78,7 +79,7 @@ export default function Home() {
     // const data = Object.fromEntries(formData) as { name: string; image: File };
 
     try {
-      const candyMachine = await fetchCandyMachine(umi, publicKey("FvkusgyRgvxGS1CLRfVRYCag1Bbc8qUaLumxEQX8zZpr"))
+      const candyMachine = await fetchCandyMachine(umi, publicKey(PPPConstants.NEXT_PUBLIC_CANDY_MACHINE_ID))
 
       const candyGuard = await safeFetchCandyGuard(umi, candyMachine.mintAuthority);
 
@@ -86,7 +87,7 @@ export default function Home() {
       console.log(nftSigner);
       const mintArgs: Partial<DefaultGuardSetMintArgs> = {
         solPayment: some({
-          destination: publicKey("4hUDLLZnRjTtwRcMAyHHqVNodDSW9nbXavj1r24tdxr4")
+          destination: publicKey(PPPConstants.TREASURY)
         })
       };
       console.log(mintArgs);
