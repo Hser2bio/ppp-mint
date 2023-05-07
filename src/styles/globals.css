@@ -763,3 +763,13 @@ input:checked + .slider:before {
   font-size: 12px;
   margin-top: 0.6em;
 }
+
+.mintAddress {
+  text-decoration: underline;
+}
+
+.mintAddress:hover {
+  color: var(--light-blue-color);
+  font-weight: bold;
+  transform: scale(1.1);
+}

@@ -22,6 +22,11 @@ import * as PPPConstants from "@/utils/pppConstants";
 
 import styles from "@/styles/Home.module.css";
 import { debug } from "@/utils/pppUtils";
+import Layout from "@/components/layout";
+import PPPNavbar from "@/components/PPPNavbar";
+import PPPPageTitle from "@/components/PPPPageTitle";
+import Image from 'next/image';
+
 const dosis = Dosis({ 
   weight: '400',
   subsets: ['latin'] 
@@ -73,6 +78,33 @@ export default function Home() {
   const [mintCreated, setMintCreated] = useState<PublicKey | null>(null);
   const [mintMsg, setMintMsg] = useState<string>();
 
+  const postToMintLog = (mintAddress: string) => {
+    debug('mint success! mintAddress: ' + mintAddress);
+    // setMintedPal(nft);
+
+    const payload = {
+      mintAddress: mintAddress,
+      pppName: 'TBA'
+    };
+    // write to log
+    fetch('https://porcupineplaygroundpals.com/mintlog/minted.php', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    }).then((response: Response) => {
+      // don't need to do anything with response but we will debug log it for sanity check
+      debug('post minted success:');
+      debug(response);
+    }).catch(err => {
+      // may as well log
+      debug('post minted error:');
+      debug(err);
+    }); 
+
+    // reset counts retrieveAvailability() should be called because dependency is on mintedPal
+    // but if it couldn't be retrieved or something, then just call it outright
+    // retrieveAvailability();
+  };
+
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setLoading(true);
@@ -87,13 +119,13 @@ export default function Home() {
       const candyGuard = await safeFetchCandyGuard(umi, candyMachine.mintAuthority);
 
       const nftSigner = generateSigner(umi);
-      console.log(nftSigner);
+      // console.log(nftSigner);
       const mintArgs: Partial<DefaultGuardSetMintArgs> = {
         solPayment: some({
           destination: publicKey(PPPConstants.TREASURY)
         })
       };
-      console.log(mintArgs);
+      // console.log(mintArgs);
       const tx = transactionBuilder()
         .add(setComputeUnitLimit(umi, { units: 600_000 }))
         .add(mintV2(umi, {
@@ -116,6 +148,11 @@ export default function Home() {
       const nft = await fetchDigitalAsset(umi, nftSigner.publicKey)
       setMintCreated(nftSigner.publicKey);
       setMintMsg("Mint Successful");
+      
+      if (mintCreated) {
+        postToMintLog(base58PublicKey(mintCreated));
+      }
+
     } catch (err: any) {
       debug(err.message);
       setMintMsg(err.message);
@@ -185,18 +222,16 @@ export default function Home() {
             <p>
               <strong>Meet your new Pal</strong> at the following address
             </p>
-            <p>
+            <p className="mintAddress">
               <code>{base58PublicKey(mintCreated)}</code>
             </p>
           </div>
         </a>
       );
     }
-
     return (
-      <>
-      <h1>Porcupine Playground Pals</h1>
-      <form method="post" onSubmit={onSubmit} className={styles.form}>
+      <>          
+          <form method="post" onSubmit={onSubmit} className={styles.form}>
         {/* <label className={styles.field}>
           <span>Name</span>
           <input name="name" defaultValue="My NFT" />
@@ -216,27 +251,33 @@ export default function Home() {
             <button className={styles.closeBtn} onClick={closeMsg}>&times;</button>
           </div>)} 
       </div>
-      </>
+
+      </> 
     );
   };
 
   return (
-    <>
-      <Head>
-        <title>Porcupine Playground Pals</title>
-        <meta name="description" content="Porcupine Playground Pals Mint" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={dosis.className}>
-        <div className={styles.wallet}>
-          <WalletMultiButtonDynamic />
-        </div>
+    <Layout>
+    <Head>
+      <title>My Porcupine Playground Pals</title>
+    </Head>
+    <PPPNavbar selectedMenu="mint"/>
+      
+      <PPPPageTitle title="Mint Porcupine Playground Pals" />
 
-        <div className={styles.center}>
-          <PageContent />
+      <main className={dosis.className}>
+        <div className={styles.container}>
+          <Image priority className="preview" src="/preview.gif" width={350} height={350} alt="Porcupine Playground Pals Candy Machine Preview" />
+
+          <div className={styles.wallet}>
+            <WalletMultiButtonDynamic />
+          </div>
+
+          <div className={styles.center}>
+            <PageContent />
+          </div>
         </div>
       </main>
-    </>
+    </Layout>
   );
 }
