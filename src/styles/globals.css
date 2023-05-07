@@ -1,4 +1,10 @@
 :root {
+  --main-background-color: #222222;
+  --dark-blue-color: #374C9F;
+  --background-lighter-color: #7A7F92;
+  --main-text-color: #f7f6f4;
+  --light-blue-color: #9fccdf;
+  --main-contrast-color: #9fccdf;
   --pal-frame-color: rgba(236, 239, 243, 1);
   --pal-first-color: rgba(236, 239, 243, 0.7);
   --pal-last-color: rgba(236, 239, 243, 0.8);

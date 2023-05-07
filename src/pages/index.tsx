@@ -21,6 +21,7 @@ import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials';
 import * as PPPConstants from "@/utils/pppConstants";
 
 import styles from "@/styles/Home.module.css";
+import { debug } from "@/utils/pppUtils";
 const dosis = Dosis({ 
   weight: '400',
   subsets: ['latin'] 
@@ -70,10 +71,12 @@ export default function Home() {
   const umi = useUmi();
   const [loading, setLoading] = useState(false);
   const [mintCreated, setMintCreated] = useState<PublicKey | null>(null);
+  const [mintMsg, setMintMsg] = useState<string>();
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setLoading(true);
+    setMintMsg(undefined);
 
     // const formData = new FormData(event.target as HTMLFormElement);
     // const data = Object.fromEntries(formData) as { name: string; image: File };
@@ -112,12 +115,21 @@ export default function Home() {
 
       const nft = await fetchDigitalAsset(umi, nftSigner.publicKey)
       setMintCreated(nftSigner.publicKey);
+      setMintMsg("Mint Successful");
+    } catch (err: any) {
+      debug(err.message);
+      setMintMsg(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   const PageContent = () => {
+    const closeMsg = () => {
+      setMintMsg(undefined);
+    };
+  
+  
     if (!wallet.connected) {
       return <p>Please connect your wallet to get started.</p>;
     }
@@ -125,24 +137,8 @@ export default function Home() {
     if (loading) {
       return (
         <div className={styles.loading}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="192"
-            height="192"
-            fill="currentColor"
-            viewBox="0 0 256 256"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <path
-              d="M168,40.7a96,96,0,1,1-80,0"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="24"
-            ></path>
-          </svg>
-          <p>Creating the NFT...</p>
+           <img className={styles.loadingIcon} src="/loading.svg" alt="Loading indicator"/>
+          <p>Approve and mint<span className="loadingDots">...</span></p>
         </div>
       );
     }
@@ -210,21 +206,17 @@ export default function Home() {
           <span>Image</span>
           <input name="image" type="file" />
         </label> */}
-        <button type="submit">
-          <span>Create NFT</span>
-          <svg
-            aria-hidden="true"
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-          >
-            <path
-              fill="currentColor"
-              d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
-            ></path>
-          </svg>
+        <button type="submit" className={styles.mintBtn}>
+          Buy with wallet
         </button>
       </form>
+      <div>
+        {mintMsg && (
+          <div className={styles.msg}>
+            <span>{mintMsg}</span>
+            <button className={styles.closeBtn} onClick={closeMsg}>&times;</button>
+          </div>)} 
+      </div>
       </>
     );
   };
