@@ -1,114 +1,250 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import {
+  base58PublicKey,
+  createGenericFileFromBrowserFile,
+  generateSigner,
+  Umi,
+  percentAmount,
+  PublicKey,
+  publicKey,
+  some,
+  transactionBuilder
+} from "@metaplex-foundation/umi";
+import { createNft, fetchDigitalAsset, TokenStandard } from "@metaplex-foundation/mpl-token-metadata";
+import { Dosis } from "@next/font/google";
+import { useWallet } from "@solana/wallet-adapter-react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { FormEvent, useState } from "react";
+import { useUmi } from "../context/useUmi";
+import { fetchCandyMachine, mintV2, safeFetchCandyGuard, DefaultGuardSetMintArgs } from "@metaplex-foundation/mpl-candy-machine"
+import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials';
 
-const inter = Inter({ subsets: ['latin'] })
+import styles from "@/styles/Home.module.css";
+const dosis = Dosis({ 
+  weight: '400',
+  subsets: ['latin'] 
+});
+
+
+const WalletMultiButtonDynamic = dynamic(
+  async () =>
+    (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+  { ssr: false }
+);
+
+// async function uploadAndCreateNft(umi: Umi, name: string, file: File) {
+//   // Ensure input is valid.
+//   if (!name) {
+//     throw new Error("Please enter a name for your NFT.");
+//   }
+//   if (!file || file.size === 0) {
+//     throw new Error("Please select an image for your NFT.");
+//   }
+
+//   // Upload image and JSON data.
+//   const imageFile = await createGenericFileFromBrowserFile(file);
+//   const [imageUri] = await umi.uploader.upload([imageFile]);
+//   const uri = await umi.uploader.uploadJson({
+//     name,
+//     description: "A test NFT created via Umi.",
+//     image: imageUri,
+//   });
+
+//   // Create and mint NFT.
+//   const mint = generateSigner(umi);
+//   const sellerFeeBasisPoints = percentAmount(5.5, 2);
+//   await createNft(umi, {
+//     mint,
+//     name,
+//     uri,
+//     sellerFeeBasisPoints,
+//   }).sendAndConfirm(umi);
+
+//   // Return the mint address.
+//   return mint.publicKey;
+// }
 
 export default function Home() {
+  const wallet = useWallet();
+  const umi = useUmi();
+  const [loading, setLoading] = useState(false);
+  const [mintCreated, setMintCreated] = useState<PublicKey | null>(null);
+
+  const onSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+
+    // const formData = new FormData(event.target as HTMLFormElement);
+    // const data = Object.fromEntries(formData) as { name: string; image: File };
+
+    try {
+      const candyMachine = await fetchCandyMachine(umi, publicKey("FvkusgyRgvxGS1CLRfVRYCag1Bbc8qUaLumxEQX8zZpr"))
+
+      const candyGuard = await safeFetchCandyGuard(umi, candyMachine.mintAuthority);
+
+      const nftSigner = generateSigner(umi);
+      console.log(nftSigner);
+      const mintArgs: Partial<DefaultGuardSetMintArgs> = {
+        solPayment: some({
+          destination: publicKey("4hUDLLZnRjTtwRcMAyHHqVNodDSW9nbXavj1r24tdxr4")
+        })
+      };
+      console.log(mintArgs);
+      const tx = transactionBuilder()
+        .add(setComputeUnitLimit(umi, { units: 600_000 }))
+        .add(mintV2(umi, {
+          candyMachine: candyMachine.publicKey,
+          collectionMint: candyMachine.collectionMint, 
+          collectionUpdateAuthority: candyMachine.authority, 
+          nftMint: nftSigner,
+          candyGuard: candyGuard?.publicKey,
+          mintArgs: mintArgs,
+          tokenStandard: TokenStandard.ProgrammableNonFungible
+        }))
+
+
+      const { signature } = await tx.sendAndConfirm(umi, {
+        confirm: { commitment: "finalized" }, send: {
+          skipPreflight: true,
+        },
+      });
+
+      const nft = await fetchDigitalAsset(umi, nftSigner.publicKey)
+      setMintCreated(nftSigner.publicKey);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const PageContent = () => {
+    if (!wallet.connected) {
+      return <p>Please connect your wallet to get started.</p>;
+    }
+
+    if (loading) {
+      return (
+        <div className={styles.loading}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="192"
+            height="192"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <path
+              d="M168,40.7a96,96,0,1,1-80,0"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="24"
+            ></path>
+          </svg>
+          <p>Creating the NFT...</p>
+        </div>
+      );
+    }
+
+    if (mintCreated) {
+      return (
+        <a
+          className={styles.success}
+          target="_blank"
+          href={
+            "https://www.solaneyes.com/address/" +
+            base58PublicKey(mintCreated) +
+            "?cluster=devnet"
+          }
+          rel="noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="192"
+            height="192"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <rect width="256" height="256" fill="none"></rect>
+            <polyline
+              points="172 104 113.3 160 84 132"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="24"
+            ></polyline>
+            <circle
+              cx="128"
+              cy="128"
+              r="96"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="24"
+            ></circle>
+          </svg>
+          <div>
+            <p>
+              <strong>NFT Created</strong> at the following address
+            </p>
+            <p>
+              <code>{base58PublicKey(mintCreated)}</code>
+            </p>
+          </div>
+        </a>
+      );
+    }
+
+    return (
+      <>
+      <h1>Porcupine Playground Pals</h1>
+      <form method="post" onSubmit={onSubmit} className={styles.form}>
+        {/* <label className={styles.field}>
+          <span>Name</span>
+          <input name="name" defaultValue="My NFT" />
+        </label>
+        <label className={styles.field}>
+          <span>Image</span>
+          <input name="image" type="file" />
+        </label> */}
+        <button type="submit">
+          <span>Create NFT</span>
+          <svg
+            aria-hidden="true"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+          >
+            <path
+              fill="currentColor"
+              d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+            ></path>
+          </svg>
+        </button>
+      </form>
+      </>
+    );
+  };
+
   return (
     <>
       <Head>
-        <title>Create Next App</title>
-        <meta name="description" content="Generated by create next app" />
+        <title>Porcupine Playground Pals</title>
+        <meta name="description" content="Porcupine Playground Pals Mint" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
+      <main className={dosis.className}>
+        <div className={styles.wallet}>
+          <WalletMultiButtonDynamic />
         </div>
 
         <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
+          <PageContent />
         </div>
       </main>
     </>
-  )
+  );
 }

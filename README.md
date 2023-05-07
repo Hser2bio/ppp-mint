@@ -2,6 +2,19 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+# Install dependencies.
+npm install @metaplex-foundation/umi \
+  @metaplex-foundation/umi-bundle-defaults \
+  @metaplex-foundation/umi-signer-wallet-adapters \
+  @metaplex-foundation/mpl-candy-machine@alpha \
+  @metaplex-foundation/mpl-token-metadata@alpha \
+  @@next/font
+  @solana/web3.js \
+  @solana/wallet-adapter-base \
+  @solana/wallet-adapter-react \
+  @solana/wallet-adapter-react-ui \
+  @solana/wallet-adapter-wallets
+
 First, run the development server:
 
 ```bash
