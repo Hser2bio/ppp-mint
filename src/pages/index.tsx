@@ -11,7 +11,7 @@ import { Dosis } from "next/font/google";
 import { useWallet } from "@solana/wallet-adapter-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useUmi } from "../context/useUmi";
 import { fetchCandyMachine, mintV2, safeFetchCandyGuard, DefaultGuardSetMintArgs } from "@metaplex-foundation/mpl-candy-machine"
 import { setComputeUnitLimit } from '@metaplex-foundation/mpl-essentials';
@@ -47,7 +47,7 @@ export default function Home() {
   const [mintMsg, setMintMsg] = useState<string>();
 
   const postToMintLog = (mintAddress: string) => {
-    debug('mint success! mintAddress: ' + mintAddress);
+    debug('postToMintLong: mint success! mintAddress: ' + mintAddress);
     // setMintedPal(nft);
 
     const payload = {
@@ -115,20 +115,27 @@ export default function Home() {
 
       const nft = await fetchDigitalAsset(umi, nftSigner.publicKey)
       setMintCreated(nftSigner.publicKey);
-      setMintMsg("Mint Successful");
+      debug("Mint Successful");
       
-      if (mintCreated) {
-        postToMintLog(base58PublicKey(mintCreated));
-      }
 
     } catch (err: any) {
       debug(err.message);
       setMintMsg(err.message);
     } finally {
       setLoading(false);
+
+      if (mintCreated) {
+        postToMintLog(base58PublicKey(mintCreated));
+      }
     }
   };
 
+  useEffect(() => {
+    if (mintCreated) {
+      postToMintLog(base58PublicKey(mintCreated));
+    }
+  }, [mintCreated])
+  
   const PageContent = () => {
     const closeMsg = () => {
       setMintMsg(undefined);

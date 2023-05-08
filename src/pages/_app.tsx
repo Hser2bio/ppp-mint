@@ -13,14 +13,18 @@ import { UmiProvider } from "../context/UmiProvider";
 import "@/styles/globals.css";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import * as PPPConstants from "../utils/pppConstants";
+import { debug } from "@/utils/pppUtils";
 
 export default function App({ Component, pageProps }: AppProps) {
-  //TODO: Use network and endpoint from .env
-  const network = WalletAdapterNetwork.Devnet;
-  // const endpoint = "https://api.devnet.solana.com";
-  // const endpoint = "https://rpc.ankr.com/solana_devnet";
-  // const endpoint = "https://metaplex.devnet.rpcpool.com";
+  
+  const network = PPPConstants.NETWORK === 'devnet' ? WalletAdapterNetwork.Devnet :
+    PPPConstants.NETWORK === 'testnet' ? WalletAdapterNetwork.Testnet :
+    WalletAdapterNetwork.Mainnet;
+
   const endpoint = `https://${PPPConstants.RPCPOOL_URL}`;
+
+  debug(`${network} - ${endpoint}`);
+  
   const wallets = useMemo(
     () => [
       new LedgerWalletAdapter(),
