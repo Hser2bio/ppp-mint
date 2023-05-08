@@ -106,7 +106,7 @@ ul.menu li:last-child {
 }
 button.wallet-adapter-button {
   width: 100%;
-  padding: 0 52px; /* override 0 24px, want it to be centered and this does it*/
+  padding: 0 74px; /* override 0 24px, want it to be centered and this does it*/
 }
 button.wallet-adapter-button:not([disabled]):hover {
   background-color: white;
