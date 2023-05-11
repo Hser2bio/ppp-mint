@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { Dosis } from '@next/font/google';
+import { Dosis } from 'next/font/google';
 
 const dosis = Dosis({ 
   weight: '800',

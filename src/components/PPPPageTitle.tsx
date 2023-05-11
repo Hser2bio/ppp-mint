@@ -1,5 +1,5 @@
 import TypeChecker from 'prop-types';
-import { Dosis } from '@next/font/google';
+import { Dosis } from 'next/font/google';
 
 const dosis = Dosis({ 
   weight: '700',
