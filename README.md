@@ -8,7 +8,6 @@ npm install @metaplex-foundation/umi \
   @metaplex-foundation/umi-signer-wallet-adapters \
   @metaplex-foundation/mpl-candy-machine@alpha \
   @metaplex-foundation/mpl-token-metadata@alpha \
-  @@next/font
   @solana/web3.js \
   @solana/wallet-adapter-base \
   @solana/wallet-adapter-react \
@@ -29,11 +28,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+There are no [API routes](https://nextjs.org/docs/api-routes/introduction) currently. The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Dosis, a custom Google Font.
 
 ## Learn More
 
