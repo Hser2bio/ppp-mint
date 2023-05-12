@@ -119,7 +119,7 @@ export default function Home() {
       
 
     } catch (err: any) {
-      debug(err);
+      console.error(err);
       setMintMsg(err.message);
     } finally {
       setLoading(false);
@@ -161,8 +161,7 @@ export default function Home() {
             className={styles.success}
             target="_blank"
             href={
-              "https://my.porcupineplaygroundpals.com/connect?p=" +
-              base58PublicKey(mintCreated)
+              `https://my.porcupineplaygroundpals.com/connect?p=${base58PublicKey(mintCreated)}${PPPConstants.NETWORK === 'devnet' ? '&cluster=devnet' : ''}` 
             }
             rel="noreferrer"
           >
