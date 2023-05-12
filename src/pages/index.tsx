@@ -60,12 +60,12 @@ export default function Home() {
       body: JSON.stringify(payload)
     }).then((response: Response) => {
       // don't need to do anything with response but we will debug log it for sanity check
-      debug('post minted success:');
+      debug('postToMintLog fetched');
       debug(response);
     }).catch(err => {
       // may as well log
-      debug('post minted error:');
-      debug(err);
+      debug('postToMintLog did not fetch');
+      debug(err.message);
     }); 
 
     // reset counts retrieveAvailability() should be called because dependency is on mintedPal
@@ -119,7 +119,7 @@ export default function Home() {
       
 
     } catch (err: any) {
-      debug(err.message);
+      debug(err);
       setMintMsg(err.message);
     } finally {
       setLoading(false);
