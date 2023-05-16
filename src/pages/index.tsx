@@ -202,7 +202,7 @@ export default function Home() {
               </p>
             </div>
           </a>
-          <button onClick="window.open('.','_blank')">Mint another Pal</button>
+          <button onClick={() => {window.open('.','_blank');}}>Mint another Pal</button>
       </>
       );
     }
