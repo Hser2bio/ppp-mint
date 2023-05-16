@@ -52,7 +52,7 @@ export default function Home() {
 
     const payload = {
       mintAddress: mintAddress,
-      pppName: 'TBA'
+      pppName: `TBA${PPPConstants.NETWORK === 'devnet' ? ' (devnet)' : ''}`
     };
     // write to log
     fetch('https://porcupineplaygroundpals.com/mintlog/minted.php', {
@@ -157,6 +157,7 @@ export default function Home() {
 
     if (mintCreated) {
       return (
+        <>
           <a
             className={styles.success}
             target="_blank"
@@ -201,6 +202,8 @@ export default function Home() {
               </p>
             </div>
           </a>
+          <button onClick="window.open('.','_blank')">Mint another Pal</button>
+      </>
       );
     }
     return (

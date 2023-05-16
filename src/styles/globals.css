@@ -770,9 +770,3 @@ input:checked + .slider:before {
 .mintAddress {
   text-decoration: underline;
 }
-
-.mintAddress:hover {
-  color: var(--light-blue-color);
-  font-weight: bold;
-  transform: scale(1.1);
-}
