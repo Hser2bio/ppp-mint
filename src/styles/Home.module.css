@@ -140,8 +140,8 @@ animation: swirl-center-ei 3s ease-in 0s 1 normal none;
 .countsContainer {
   border: 1px dashed var(--light-blue-color);
   background-color: var(--dark-blue-color);
-  width: calc(100% - 100px);    
   text-align: center;
+  margin-bottom: 1em;
 }
 
 .countsContainer h3 {

@@ -608,6 +608,7 @@ button:disabled, .searchBtn:disabled, button.xmintBtn:disabled {
   opacity: .5;
   color: inherit;
   cursor: default;
+  background-color: var(--dark-blue-color);
 }
 
 .errorMsg {

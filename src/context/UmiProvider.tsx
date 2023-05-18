@@ -17,7 +17,6 @@ export const UmiProvider = ({
   const wallet = useWallet();
   const umi = createUmi(endpoint)
     .use(walletAdapterIdentity(wallet))
-    // .use(nftStorageUploader())
     .use(mplTokenMetadata())
     .use(mplCandyMachine())
 
