@@ -3,6 +3,7 @@ the Metaplex Candy Machine v3 - Account v2, which allows pNFTs to protect royalt
 
 A lot of the code came from https://github.com/MarkSackerberg/mpl-candy-machine/tree/example-CM-mint/examples/js/ui-create-nft
 
+This includes the solPayment guard and showing the number of items minted and remaining.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
